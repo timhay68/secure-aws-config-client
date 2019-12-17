@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      author: Tim Hay
+      id: aws-secure-config-test-data
+      changes:
+        - sqlFile:
+            endDelimeter: ""
+            splitStatements: true
+            relativeToChangelogFile: true
+            path: ../sql/aws-secure-config-seed.sql

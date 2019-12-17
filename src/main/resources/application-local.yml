@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: '@ext.longName@ - LOCAL'
+  liquibase:
+    enabled: true
+    drop-first: true
+    change-log: classpath:/db/changelog/changelog-master.yml
+  datasource:
+    jdbc-url: jdbc:mysql://localhost:3306/sampledb?useSSL=false&allowPublicKeyRetrieval=true
+  jpa:
+    show-sql: true
+    hibernate:
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    properties:
+      dialect: org.hibernate.dialect.MySQL5Dialect
+      validation_mode: none
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+secure-aws-config:
+  awsProfile: tim-dev
+  parameters:
+    pathBase: /sampleapi/dev
+    region: ap-southeast-2
+

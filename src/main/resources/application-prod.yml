@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: '@ext.longName@ - PROD'
+  liquibase:
+    enabled: true
+    drop-first: false
+    change-log: classpath:/db/changelog/changelog-master.yml
+  datasource:
+    jdbc-url: jdbc:mysql://aa1q7mc6b5bgwxl.cgqm61ewwrsx.ap-southeast-2.rds.amazonaws.com:3306/db?useSSL=false&allowPublicKeyRetrieval=true
+  jpa:
+    show-sql: true
+    hibernate:
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    properties:
+      dialect: org.hibernate.dialect.MySQL5Dialect
+      validation_mode: none
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: 'info,health'
+
+secure-aws-config:
+  parameters:
+    pathBase: /sampleapi/prod
+    region: ap-southeast-2
+

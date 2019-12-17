@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: createTable-person
+      author: Tim Hay
+      changes:
+        createTable:
+          tableName: person
+          columns:
+          - column:
+              name: person_id
+              type: bigint(20)
+              autoIncrement: true
+              constraints:
+                primaryKey: true
+                nullable: false
+          - column:
+              name: first_name
+              type: varchar(255)
+              constraints:
+                nullable: false
+          - column:
+              name: last_name
+              type: varchar(255)
+              constraints:
+                nullable: false
+          - column:
+              name: date_of_birth
+              type: date
+          - column:
+              name: email
+              type: varchar(50)

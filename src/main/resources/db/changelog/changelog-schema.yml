@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: schema/createTable-person.yml
+      relativeToChangelogFile: true

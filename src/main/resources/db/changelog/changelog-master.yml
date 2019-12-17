@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: changelog-schema.yml
+      relativeToChangelogFile: true
+  - include:
+      file: changelog-seeddata.yml
+      relativeToChangelogFile: true

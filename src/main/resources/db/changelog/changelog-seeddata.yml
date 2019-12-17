@@ -1,0 +1,11 @@
+databaseChangeLog:
+  # Add changesets here for reference data that is common across all environments/profiles
+  - changeSet:
+      author: Tim Hay
+      id: aws-secure-config-seed-data-local
+      changes:
+        - sqlFile:
+            endDelimeter: ""
+            splitStatements: true
+            relativeToChangelogFile: true
+            path: sql/aws-secure-config-seed.sql

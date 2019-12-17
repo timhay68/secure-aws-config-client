@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: '@ext.longName@'
+  liquibase:
+    enabled: true
+    drop-first: false
+    change-log: classpath:/db/changelog/test/changelog-master.yml
+  datasource:
+    jdbc-url: jdbc:h2:mem:sampledb1
+    jdbc-url-full: jdbc:h2:mem:sampledb1;MODE=MySql;DB_CLOSE_ON_EXIT=FALSE;INIT=CREATE SCHEMA IF NOT EXISTS SAMPLE_DB;SET SCHEMA SAMPLE_DB
+    username: sa
+    password:
+  jpa:
+    show-sql: false
+    hibernate:
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    properties:
+      dialect: org.hibernate.dialect.MySQL5Dialect
+      validation_mode: none
+
+logging:
+  level:
+    org:
+      springframework: INFO
+
+secure-aws-config:
+  awsProfile: tim-dev
+  parameters:
+    pathBase: /sampleapi/pdev
+    region: ap-southeast-2
+
