@@ -30,3 +30,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Tomcat ###
+catalina.base_IS_UNDEFINED/
