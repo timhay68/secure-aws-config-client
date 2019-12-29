@@ -1,6 +1,5 @@
 package com.example.secureconfigclient.config.secrets;
 
-import au.com.haystacker.secureawsconfig.parameters.config.EnableSecureAWSParameters;
 import au.com.haystacker.secureawsconfig.secrets.annotation.AwsSecret;
 import au.com.haystacker.secureawsconfig.secrets.config.EnableSecureAWSSecrets;
 import com.example.secureconfigclient.config.DbCredentials;
@@ -12,16 +11,15 @@ import org.springframework.context.annotation.Profile;
 
 @Profile({ "awsSecretConfig" })
 @Configuration
-//@EnableSecureAWSParameters
 @EnableSecureAWSSecrets
 public class AwsSecretDbCredentials {
 
     private static final Logger LOG = LoggerFactory.getLogger(AwsSecretDbCredentials.class);
 
-    @AwsSecret(secretName = "mysql-username")
+    @AwsSecret(secretKey = "mysql-username")
     private String username;
 
-    @AwsSecret(secretName = "mysql-password")
+    @AwsSecret(secretKey = "mysql-password")
     private String password;
 
     public AwsSecretDbCredentials() {
