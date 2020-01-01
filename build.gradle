@@ -38,7 +38,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.liquibase:liquibase-core'
 	implementation 'org.apache.commons:commons-lang3'
-	implementation 'au.com.haystacker:secure-aws-config:2.0.0-SNAPSHOT'
+	implementation 'au.com.haystacker:secure-aws-config:2.0.0'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
