@@ -4,25 +4,64 @@ This project demonstrates the use of the annotations implemented in the secure-a
 It shows the steps required to allow a Spring Boot application to retrieve database credentials 
 from either AWS Parameter Store or AWS Secrets Manager, and then use those credentials to configure 
 a datasource used by the application. In addition, we demonstrate using that same datasource to
-run Liquibase update changesets on application startup. 
+run Liquibase update change-sets on application startup. 
 
 ## Spring Profiles
 ### Credential Storage Profiles
 To determine whether our application will use AWS Parameter Store or AWS Secrets Manager for the 
-storage of the database credentials, we make use of two Spring profiles: _awsParameterConfig_ 
-and _awsSecretConfig_.  One or the other must be specified - not both.
-#### _awsParameterConfig_
+storage of the database credentials, we activate one of two Spring profiles: _awsParameterConfig_ 
+or _awsSecretConfig_.  One or the other must be specified - not both.
 
+Each of these profiles results in a Component which exposes a _DbCredentials_ bean. This bean is 
+then available to be injected into the _MyApiDataSourceAutoConfiguration_ and _LiquibaseConfiguration_
+configurations.
+ 
+#### _awsParameterConfig_
+When this profile is activated, _AwsParameterDbCredentials_ is registered in the Spring context. 
+_AwsParameterDbCredentials_ is decorated with the _@EnableSecureAWSParameters_ annotation, which 
+in turn brings in all the configuration from the aws-secure-config library, to facilitate connection 
+to AWS Parameter Store, and retrieval of values as indicated by the members decorated with _@AwsParameter_.
+
+The members decorated with _@AwsParameter_ provide the values used to construct a _DbCredentials_ 
+instance, which is then made available to the application in the Spring context.     
  
 #### _awsSecretConfig_
+When this profile is activated, _AwsSecretDbCredentials_ is registered in the Spring context. 
+_AwsSecretDbCredentials_ is decorated with the _@EnableSecureAWSSecrets_ annotation, which 
+in turn brings in all the configuration from the aws-secure-config library, to facilitate connection 
+to AWS Secrets Manager, and retrieval of values as indicated by the members decorated with _@AwsSecret_.
 
+The members decorated with _@AwsSecret_ provide the values used to construct a _DbCredentials_ 
+instance, which is then made available to the application in the Spring context.     
+ 
+#### Neither profile
+If neither of the two above Spring profiles are specified, then this results in the 
+_LocalSecretsConfiguration_ component being activated. This is useful when the you wish to test your 
+application but are not willing or able to integrate with AWS at that time: for instance, your dev-ops 
+team has not yet setup your credentials, or your development environment does not have access to the 
+internet.
+   
+This configuration requires the following two properties to be defined in the local 
+properties file:
+* spring.datasource.username
+* spring.datasource.password
+
+These should be set to the values configured for your database instance.  
 
 ### Environment Profiles 
-#### _local_
+Hopefully these two profiles are self explanatory. Their purpose in this project is to demonstrate 
+the use of different sources for your secrets across different deployment targets. 
 
+#### _local_
+Specifying the _local_ Spring profile will result in the property file resolution mechanism loading
+properties from _application-local.yml_.
+
+This is where you can specify a local database - especially during development, as well as which mechanism,
+if any, is to be used to manage the process of loading your secrets.
  
 #### _prod_
-
+Specifying the _prod_ Spring profile will result in the property file resolution mechanism loading
+properties from _application-prod.yml_.
  
 ## Getting Started I
 
@@ -82,7 +121,7 @@ Secret Value: _password123_
 ### Local Development
 #### Application Configuration
 In application.yml, `spring.profiles.active` contains the list of Spring profiles which will 
-be used to select the configurations to bei used at runtime. Ensure this list includes 'local'
+be used to select the configurations to be used at runtime. Ensure this list includes 'local'
 and not 'prod'.
 
 The following configurations will then be found in application-local.yml.  
