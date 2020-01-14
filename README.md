@@ -63,7 +63,7 @@ if any, is to be used to manage the process of loading your secrets.
 Specifying the _prod_ Spring profile will result in the property file resolution mechanism loading
 properties from _application-prod.yml_.
  
-## Getting Started I
+## Getting Started
 
 ### Database
 This sample project has been tested using MySQL 5.7, however other relational databases 
@@ -130,8 +130,8 @@ Configure `spring.datasource.jdbc-url` as required, depending on the location, t
 of your database.
 
 Set `secure-aws-config.awsProfile` to the name of your AWS profile used for local development.
-This profile must represent credentials which will give the application permissions to read 
-from the AWS Parameter Store or AWS Secrets Manager, as required.
+This profile must represent credentials which will give the application the necessary permissions 
+to read from the AWS Parameter Store or AWS Secrets Manager, as required.
 
 Set `secure-aws-config.parameters.region` or `secure-aws-config.secrets.region` to the region in 
 which your account created the corresponding parameters/secrets.
