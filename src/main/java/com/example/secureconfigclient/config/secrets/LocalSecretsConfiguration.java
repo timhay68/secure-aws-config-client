@@ -9,23 +9,22 @@ import org.springframework.stereotype.Component;
 
 @Profile({ "!awsParameterConfig & !awsSecretConfig" })
 @Component
-@ConfigurationProperties(
-        prefix = LocalSecretsConfiguration.PREFIX
-)
+@ConfigurationProperties("spring.datasource")
 public class LocalSecretsConfiguration {
 
-    static final String PREFIX = "spring.datasource";
-
-    @Value("username")
-    private transient String username;
-
-    @Value("password")
-    private transient String password;
+    private String username;
+    private String password;
 
     @Bean
     public DbCredentials dbCredentials() {
        return new DbCredentials(username, password);
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

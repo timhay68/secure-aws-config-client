@@ -18,7 +18,7 @@ public class LiquibaseConfiguration {
     private DataSource dataSource;
 
     @Bean
-    @ConfigurationProperties(prefix = "spring.liquibase")
+    @ConfigurationProperties("spring.liquibase")
     public LiquibaseProperties primaryLiquibaseProperties() {
         return new LiquibaseProperties();
     }

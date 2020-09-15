@@ -47,8 +47,6 @@ public class MyApiDataSourceAutoConfiguration {
     private String jdbcUrl;
 
     @Bean(name = "dataSource")
-    // username/password used to come from @ConfigurationProperties.
-    // @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource dataSource() {
         final DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.username(dbCredentials.getUsername());
