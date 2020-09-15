@@ -7,14 +7,22 @@ a datasource used by the application. In addition, we demonstrate using that sam
 run Liquibase update change-sets on application startup. 
 
 ## Spring Profiles
+This project uses a combination of profiles to:
+1. Determine where the database credentials are stored.
+2. Select a configuration set corresponding to one of two deployment targets - dev and prod.
+
+The profile(s) with which this application will run are configured in the default `application.yml` file.
+You will find this file contains all relevant combinations - adjust the commented-out lines to your requirements.
+
 ### Credential Storage Profiles
 To determine whether our application will use AWS Parameter Store or AWS Secrets Manager for the 
 storage of the database credentials, we activate one of two Spring profiles: _awsParameterConfig_ 
-or _awsSecretConfig_.  One or the other must be specified - not both.
+or _awsSecretConfig_.  One or the other must be specified - not both.<br>
+Alternatively, for local, offline development, you may choose to omit both.
 
 Each of these profiles results in a Component which exposes a _DbCredentials_ bean. This bean is 
 then available to be injected into the _MyApiDataSourceAutoConfiguration_ and _LiquibaseConfiguration_
-configurations.
+configurations, which are, in turn, responsible for exposing a DataSource bean into the Spring context.
  
 #### _awsParameterConfig_
 When this profile is activated, _AwsParameterDbCredentials_ is registered in the Spring context. 
@@ -137,7 +145,59 @@ Set `secure-aws-config.parameters.region` or `secure-aws-config.secrets.region` 
 which your account created the corresponding parameters/secrets.
 
 #### AWS IAM Configuration
-TODO
+Create a group named `sample-api-dev-group` and add the user named `secure-config-tester` to it.<br>
+Depending on whether you wish to use the AWS Secrets Manager or the AWS Parameter Store, create 
+the policies described in the following sections, and attach them to the group just created.
+
+##### AWS Secrets Manager Policy
+Create the following policy for your dev secret.
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "secretsmanager:GetResourcePolicy",
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:ListSecretVersionIds"
+            ],
+            "Resource": "<YOUR SECRET ARN>"
+        }
+    ]
+}
+```
+
+
+##### AWS Parameter Store Policy
+
+Create the following policy for your dev parameters. Note the use of an asterisk at the end of the resource to indicate
+that this policy applies to the root of the parameter hierarchy, and all elements under it.
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "ssm:GetParametersByPath",
+                "ssm:GetParameters",
+                "ssm:GetParameter"
+            ],
+            "Resource": "arn:aws:ssm:<YOUR REGION>:<YOUR ACCOUNT>:parameter/sampleapi/dev*"
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": "ssm:DescribeParameters",
+            "Resource": "*"
+        }
+    ]
+}
+```
 
 ### AWS Elastic Beanstalk Deployment
 #### Application Configuration
