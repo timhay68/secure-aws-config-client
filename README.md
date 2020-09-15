@@ -144,6 +144,13 @@ to read from the AWS Parameter Store or AWS Secrets Manager, as required.
 Set `secure-aws-config.parameters.region` or `secure-aws-config.secrets.region` to the region in 
 which your account created the corresponding parameters/secrets.
 
+#### Credentials Configuration
+In a production environment, where the application is deployed to an AWS EC2 server, secure-aws-config provides 
+a default _AwsCredentialsProvider_, which uses the EC2 server's instance profile to obtain credentials for 
+authenticating to AWS in order to access the secrets or parameters. In a local environment, specifying the 'local' 
+profile activates the _AWSCredentialsConfiguration_ bean defined in this project, which is able to use the AWS Profile 
+named in the `secure-aws-config.awsProfile` configuration. In this case, the default _AwsCredentialsProvider_ 'backs off'.
+ 
 #### AWS IAM Configuration
 Create a group named `sample-api-dev-group` and add the user named `secure-config-tester` to it.<br>
 Depending on whether you wish to use the AWS Secrets Manager or the AWS Parameter Store, create 
@@ -213,5 +220,10 @@ of your database.
 Set `secure-aws-config.parameters.region` or `secure-aws-config.secrets.region` to the region in 
 which your account created the corresponding parameters/secrets.
 
+#### Credentials Configuration
+In a production environment, where the application is deployed to an AWS EC2 server, secure-aws-config provides 
+a default _AwsCredentialsProvider_, which uses the EC2 server's instance profile to obtain credentials for 
+authenticating to AWS in order to access the secrets or parameters. 
+ 
 #### AWS IAM Configuration
 TODO
