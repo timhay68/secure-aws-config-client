@@ -7,6 +7,8 @@ spring:
     change-log: classpath:/db/changelog/changelog-master.yml
   datasource:
     jdbc-url: jdbc:mysql://localhost:3306/sampledb?useSSL=false&allowPublicKeyRetrieval=true
+#    username: sample_user
+#    password: password123
   jpa:
     show-sql: true
     hibernate:
@@ -23,8 +25,12 @@ management:
         include: '*'
 
 secure-aws-config:
-  awsProfile: tim-dev
+  awsProfile: secure-config-tester
   parameters:
     pathBase: /sampleapi/dev
     region: ap-southeast-2
+#  secrets:
+#    secretName: sampleapi/dev
+#    region: ap-southeast-2
+
 
