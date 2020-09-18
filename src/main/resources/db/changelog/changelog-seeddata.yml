@@ -9,3 +9,12 @@ databaseChangeLog:
             splitStatements: true
             relativeToChangelogFile: true
             path: sql/aws-secure-config-seed.sql
+  - changeSet:
+      author: Tim Hay
+      id: aws-secure-config-seed-data-more
+      changes:
+        - sqlFile:
+            endDelimeter: ""
+            splitStatements: true
+            relativeToChangelogFile: true
+            path: sql/aws-secure-config-seed-more-persons.sql
