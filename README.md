@@ -171,7 +171,7 @@ Create the following policy for your dev secret.
                 "secretsmanager:DescribeSecret",
                 "secretsmanager:ListSecretVersionIds"
             ],
-            "Resource": "<YOUR SECRET ARN>"
+            "Resource": "<YOUR DEV SECRET ARN>"
         }
     ]
 }
@@ -206,6 +206,14 @@ that this policy applies to the root of the parameter hierarchy, and all element
 }
 ```
 
+#### Running the Application
+The application can be started from the command line with the following:
+```commandline
+gradlew bootRun
+```
+The application should then be available in a browser at http://localhost:8080/domain?personId=11110
+Note the seed data allows values for personId between 11110 and 11115.
+
 ### AWS Elastic Beanstalk Deployment
 #### Application Configuration
 In application.yml, `spring.profiles.active` contains the list of Spring profiles which will 
@@ -226,4 +234,63 @@ a default _AwsCredentialsProvider_, which uses the EC2 server's instance profile
 authenticating to AWS in order to access the secrets or parameters. 
  
 #### AWS IAM Configuration
-TODO
+When launching an EC2  instance, the default user's associated instance profile contains an IAM role. 
+A policy must be created and added to this role which allows the user to access the secrets or parameters required 
+by the application.
+Depending on whether you wish to use the AWS Secrets Manager or the AWS Parameter Store, create 
+the policies described in the following sections, and attach them to the instance role.
+
+##### AWS Secrets Manager Policy
+Create the following policy for your dev secret.
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "secretsmanager:GetResourcePolicy",
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:ListSecretVersionIds"
+            ],
+            "Resource": "<YOUR PROD SECRET ARN>"
+        }
+    ]
+}
+```
+
+
+##### AWS Parameter Store Policy
+
+Create the following policy for your dev parameters. Note the use of an asterisk at the end of the resource to indicate
+that this policy applies to the root of the parameter hierarchy, and all elements under it.
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "ssm:GetParametersByPath",
+                "ssm:GetParameters",
+                "ssm:GetParameter"
+            ],
+            "Resource": "arn:aws:ssm:<YOUR REGION>:<YOUR ACCOUNT>:parameter/sampleapi/prod*"
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": "ssm:DescribeParameters",
+            "Resource": "*"
+        }
+    ]
+}
+```
+
+#### Running the Application
+Once the application has been deployed to Elastic Beanstalk environment, it should then be available in a 
+browser at http://localhost:8080/domain?personId=11110
+Note the seed data allows values for personId between 11110 and 11115.
