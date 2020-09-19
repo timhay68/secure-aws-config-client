@@ -74,7 +74,7 @@ properties from _application-prod.yml_.
 ## Getting Started
 
 ### Database
-This sample project has been tested using MySQL 5.7, however other relational databases 
+This sample project has been tested using MySQL 5.7 and 8.0.20, however other relational databases 
 will no doubt work just as well.
 
 For each environment (_local_ and _prod_), create a new database named _sampledb_.

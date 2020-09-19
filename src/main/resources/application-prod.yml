@@ -6,7 +6,7 @@ spring:
     drop-first: false
     change-log: classpath:/db/changelog/changelog-master.yml
   datasource:
-    jdbc-url: jdbc:mysql://aa1q7mc6b5bgwxl.cgqm61ewwrsx.ap-southeast-2.rds.amazonaws.com:3306/db?useSSL=false&allowPublicKeyRetrieval=true
+    jdbc-url: jdbc:mysql://secure-aws-client-db.haystacker.com.au:3306/sampledb?useSSL=false&allowPublicKeyRetrieval=true
   jpa:
     show-sql: true
     hibernate:
