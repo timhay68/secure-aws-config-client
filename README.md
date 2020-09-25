@@ -6,6 +6,16 @@ from either AWS Parameter Store or AWS Secrets Manager, and then use those crede
 a datasource used by the application. In addition, we demonstrate using that same datasource to
 run Liquibase update change-sets on application startup. 
 
+## Before you start...
+You should be comfortable with the following tasks:
+* Java application development using Spring
+* Using MySQL DBMS to initialise a database for use in testing the application in a local development environment
+* Using AWS Parameter Store to create and manage parameters.
+* Using AWS Secrets Manager to create and manage secrets.
+* Using AWS IAM to create users, credentials, groups and policies
+* Using AWS Elastic Beanstalk to create a stack to which the sample can be deployed
+* Using AWS RDS to initialise the database required for the application to run in Elastic Beanstalk
+
 ## Spring Profiles
 This project uses a combination of profiles to:
 1. Determine where the database credentials are stored.
@@ -139,7 +149,8 @@ of your database.
 
 Set `secure-aws-config.awsProfile` to the name of your AWS profile used for local development.
 This profile must represent credentials which will give the application the necessary permissions 
-to read from the AWS Parameter Store or AWS Secrets Manager, as required.
+to read from the AWS Parameter Store or AWS Secrets Manager, as required.<br>
+For the purpose of this sample, those credentials were created from an AWS IAM user named `secure-config-tester`
 
 Set `secure-aws-config.parameters.region` or `secure-aws-config.secrets.region` to the region in 
 which your account created the corresponding parameters/secrets.
